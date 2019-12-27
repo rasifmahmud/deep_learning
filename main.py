@@ -1,0 +1,10 @@
+from logistic_regression.logistic_regression import LogisticRegression
+from logistic_regression.data_preprocessor.cat_vs_non_cat_data_pre_processor import cat_vs_non_cat_data_pre_processor
+
+logistic_regression = LogisticRegression(cat_vs_non_cat_data_pre_processor)
+logistic_regression.build_classifier()
+train_accuracy = logistic_regression.calculate_accuracy(x=logistic_regression.train_x, y=logistic_regression.train_y)
+test_accuracy = logistic_regression.calculate_accuracy(x=logistic_regression.test_x, y=logistic_regression.test_y)
+
+print(train_accuracy)
+print(test_accuracy)
