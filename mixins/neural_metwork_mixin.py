@@ -1,5 +1,6 @@
 import numpy as np
 from mixins.numpy_mixin import NumPyMixin
+from enums.neural_network_activation_enum import NeuralNetworkActivationEnum
 
 
 class NeuralNetworkMixin(NumPyMixin):
@@ -21,6 +22,15 @@ class NeuralNetworkMixin(NumPyMixin):
     def calculate_accuracy(self, x, y):
         y_prediction = self.predict(x)
         return 100 - np.mean(np.abs(y_prediction - y)) * 100
+
+    def get_activation_function(self, activation):
+        if activation == NeuralNetworkActivationEnum.Sigmoid:
+            return self.sigmoid
+        elif activation == NeuralNetworkActivationEnum.Relu:
+            return self.relu
+        if activation == NeuralNetworkActivationEnum.Tanh:
+            return np.tanh
+        return self.sigmoid
 
     def initialize_weight_parameters(self):
         raise NotImplementedError("You need to implement this method in your class")

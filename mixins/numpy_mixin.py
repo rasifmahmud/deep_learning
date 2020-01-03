@@ -13,5 +13,9 @@ class NumPyMixin:
         return weight_vector
 
     @staticmethod
-    def calculate_sigmoid(x):
+    def sigmoid(x):
         return 1 / (1 + np.exp(-x))
+
+    @staticmethod
+    def relu(x):
+        return np.maximum(x, 0)

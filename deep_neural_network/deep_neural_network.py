@@ -1,12 +1,13 @@
 from mixins.neural_metwork_mixin import NeuralNetworkMixin
 from enums.neural_network_activation_enum import NeuralNetworkActivationEnum
+import numpy as np
 
 
 # layer_dims = [3, 4,, 5, 1]
 
 # layer_dict = [
 #     {"activation": NeuralNetworkActivationEnum.Relu.value,
-#     "weight_matrix": ...,
+#     "w": ...,
 #      "b": ...,
 #     },
 #     {"activation": NeuralNetworkActivationEnum.Relu.value},
@@ -37,6 +38,17 @@ class DeepNeuralNetwork(NeuralNetworkMixin):
                 previous_layer_num_of_neurons = self.num_of_features
             current_layer_num_of_neurons = self.layer_dims[index]
             weight_factor = .01
-            self.layer_dict_list[index]['weight_matrix'] = self.get_random_matrix(current_layer_num_of_neurons,
-                                                                                  previous_layer_num_of_neurons) * weight_factor
+            self.layer_dict_list[index]['w'] = self.get_random_matrix(current_layer_num_of_neurons,
+                                                                      previous_layer_num_of_neurons) * weight_factor
             self.layer_dict_list[index]['b'] = self.get_zero_matrix(current_layer_num_of_neurons, 1)
+
+    def forward_propagation(self, x):
+        a = x
+        for layer_dict in self.layer_dict_list:
+            layer_dict['a_prev'] = a
+            z = np.dot(layer_dict['w'], a) + layer_dict['b']
+            activation_function = self.get_activation_function(layer_dict['activation'])
+            a = activation_function(z)
+            layer_dict['z'] = z
+            layer_dict['a'] = a
+        return a
