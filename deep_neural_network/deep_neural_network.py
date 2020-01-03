@@ -36,7 +36,7 @@ class DeepNeuralNetwork(NeuralNetworkMixin):
             else:
                 previous_layer_num_of_neurons = self.num_of_features
             current_layer_num_of_neurons = self.layer_dims[index]
-
+            weight_factor = .01
             self.layer_dict_list[index]['weight_matrix'] = self.get_random_matrix(current_layer_num_of_neurons,
-                                                                                  previous_layer_num_of_neurons)
+                                                                                  previous_layer_num_of_neurons) * weight_factor
             self.layer_dict_list[index]['b'] = self.get_zero_matrix(current_layer_num_of_neurons, 1)
