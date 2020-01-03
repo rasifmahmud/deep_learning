@@ -1,5 +1,5 @@
 import numpy as np
-from neural_network_mixin.neural_metwork_mixin import NeuralNetworkMixin
+from mixins.neural_metwork_mixin import NeuralNetworkMixin
 
 
 class LogisticRegression(NeuralNetworkMixin):

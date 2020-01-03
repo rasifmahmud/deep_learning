@@ -1,4 +1,4 @@
-from neural_network_mixin.neural_metwork_mixin import NeuralNetworkMixin
+from mixins.neural_metwork_mixin import NeuralNetworkMixin
 from enums.neural_network_activation_enum import NeuralNetworkActivationEnum
 
 

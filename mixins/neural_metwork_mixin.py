@@ -1,5 +1,5 @@
 import numpy as np
-from utils.numpy_mixin import NumPyMixin
+from mixins.numpy_mixin import NumPyMixin
 
 
 class NeuralNetworkMixin(NumPyMixin):
