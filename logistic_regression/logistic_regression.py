@@ -12,7 +12,7 @@ class LogisticRegression(NeuralNetworkMixin):
 
     def forward_propagation(self, x):
         z = np.dot(self.weight_vector.transpose(), x) + self.b
-        a = self.calculate_sigmoid(z)
+        a = self.sigmoid(z)
         return a
 
     def back_propagation(self, x, y, a):

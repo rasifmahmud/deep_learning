@@ -19,4 +19,4 @@ def cat_vs_non_cat_data_pre_processor(train_filename='./logistic_regression/data
     test_y = np.array(test_file['test_set_y'])
     reshaped_test_y = test_y.reshape((1, test_y.shape[0]))
 
-    return reshaped_train_x, reshaped_train_y, reshaped_test_x, reshaped_test_y
+    return reshaped_train_x / 255, reshaped_train_y / 255, reshaped_test_x / 255, reshaped_test_y / 255
