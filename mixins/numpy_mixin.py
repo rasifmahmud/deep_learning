@@ -12,10 +12,3 @@ class NumPyMixin:
         weight_vector = np.random.randn(num_of_rows, num_of_colms)
         return weight_vector
 
-    @staticmethod
-    def sigmoid(x):
-        return 1 / (1 + np.exp(-x))
-
-    @staticmethod
-    def relu(x):
-        return np.maximum(x, 0)

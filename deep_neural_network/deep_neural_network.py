@@ -19,7 +19,6 @@ class DeepNeuralNetwork(NeuralNetworkMixin):
         self.layer_dims = layer_dims  # only keeps track of the number of neurons for different layers
         self.layer_dict_list = layer_dict_list  # keeps track of different configuration for different layers
         self.handle_layer_info()  # initializes layer_dict_list based on layer_dims in case layer_dict_list is None
-        self.initialize_weight_parameters()
 
     def handle_layer_info(self):
         # if both of them are none
@@ -52,3 +51,46 @@ class DeepNeuralNetwork(NeuralNetworkMixin):
             layer_dict['z'] = z
             layer_dict['a'] = a
         return a
+
+    def linear_backward(self, dz, layer_dict):
+        a_prev = layer_dict['a_prev']
+        w = layer_dict['w']
+        m = self.num_of_training_examples
+
+        dw = np.dot(dz, a_prev.transpose()) / m
+        db = np.sum(dz, axis=1, keepdims=True) / m
+        da_prev = np.dot(w.transpose(), dz)
+
+        return da_prev, dw, db
+
+    def linear_activation_backward(self, da, layer_dict):
+        backward_activation_function = self.get_backward_activation_function(layer_dict['activation'])
+
+        dz = backward_activation_function(da, layer_dict['z'])
+        da_prev, dw, db = self.linear_backward(dz, layer_dict)
+
+        layer_dict['da_prev'] = da_prev
+        layer_dict['dw'] = dw
+        layer_dict['db'] = db
+
+        return da_prev
+
+    def back_propagation(self, x, y, a):
+        da = - (np.divide(y, a) - np.divide(1 - y, 1 - a))
+        for layer_dict in reversed(self.layer_dict_list):
+            da = self.linear_activation_backward(da, layer_dict)
+
+    def update_weight(self, learning_rate):
+        for layer_dict in self.layer_dict_list:
+            layer_dict['w'] -= learning_rate * layer_dict['dw']
+            layer_dict['b'] -= learning_rate * layer_dict['db']
+
+    def build_classifier(self, learning_rate=.05, number_of_iterations=2000):
+        self.initialize_weight_parameters()
+        for iteration in range(number_of_iterations):
+            x = self.train_x
+            y = self.train_y
+
+            a = self.forward_propagation(self.train_x)
+            self.back_propagation(x, y, a)
+            self.update_weight(learning_rate=learning_rate)
