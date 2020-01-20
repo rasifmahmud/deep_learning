@@ -1,9 +1,9 @@
 import h5py
 import numpy as np
+import os
 
-
-def cat_vs_non_cat_data_pre_processor(train_filename='./logistic_regression/dataset/train_catvnoncat.h5',
-                                      test_filename='./logistic_regression/dataset/test_catvnoncat.h5'):
+def cat_vs_non_cat_data_pre_processor(train_filename='./data/dataset/train_catvnoncat.h5',
+                                      test_filename='./data/dataset/test_catvnoncat.h5'):
     train_file = h5py.File(train_filename, 'r')
     test_file = h5py.File(test_filename, 'r')
 
