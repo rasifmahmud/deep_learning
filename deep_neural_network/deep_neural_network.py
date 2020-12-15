@@ -41,6 +41,14 @@ class DeepNeuralNetwork(NeuralNetworkMixin):
                                                                       previous_layer_num_of_neurons) * weight_factor
             self.layer_dict_list[index]['b'] = self.get_zero_matrix(current_layer_num_of_neurons, 1)
 
+    def compute_cost(self, a):
+        m = self.num_of_training_examples
+        Y = self.train_y
+        cost_matrix = - (Y * np.log(a) + (1 - Y) * np.log(1 - a))
+        cost = np.sum(cost_matrix, axis=1, keepdims=True) / m
+        cost = np.squeeze(cost)
+        return cost
+
     def forward_propagation(self, x):
         a = x
         for layer_dict in self.layer_dict_list:
@@ -50,6 +58,7 @@ class DeepNeuralNetwork(NeuralNetworkMixin):
             a = activation_function(z)
             layer_dict['z'] = z
             layer_dict['a'] = a
+
         return a
 
     def linear_backward(self, dz, layer_dict):
@@ -92,5 +101,8 @@ class DeepNeuralNetwork(NeuralNetworkMixin):
             y = self.train_y
 
             a = self.forward_propagation(self.train_x)
+            cost = self.compute_cost(a)
+            if iteration % 100 == 0:
+                print(cost)
             self.back_propagation(x, y, a)
             self.update_weight(learning_rate=learning_rate)

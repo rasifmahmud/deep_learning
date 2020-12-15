@@ -9,6 +9,6 @@ class NumPyMixin:
 
     @staticmethod
     def get_random_matrix(num_of_rows, num_of_colms):
+        np.random.seed(1)
         weight_vector = np.random.randn(num_of_rows, num_of_colms)
         return weight_vector
-
